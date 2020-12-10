@@ -569,7 +569,7 @@ BfmImageAdd (
       FvInFd->FfsAttuibutes[FvInFd->FfsNumbers].FfsName[_MAX_PATH - 1] = 0;
       FvInFd->FfsAttuibutes[FvInFd->FfsNumbers].Level   = NewAddedFfsLevel;
 
-      TemDir = getcwd (NULL, _MAX_PATH);
+      TemDir = getcwd (NULL, 0);
       if (strlen (TemDir) + strlen (OS_SEP_STR) + strlen (TEMP_DIR_NAME) > _MAX_PATH - 1) {
         printf ("The directory is too long \n");
         LibBfmFreeFd(FdData);
@@ -904,7 +904,7 @@ BfmImageReplace (
       }
 
       if (TemDir == NULL) {
-        TemDir = getcwd (NULL, _MAX_PATH);
+        TemDir = getcwd (NULL, 0);
         if (strlen (TemDir) + strlen (OS_SEP_STR)+ strlen (TEMP_DIR_NAME) > _MAX_PATH - 1) {
           printf ("The directory is too long \n");
           LibBfmFreeFd(FdData);

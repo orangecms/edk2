@@ -44,7 +44,7 @@
 #endif
 
 #define TEMP_DIR_NAME                  "Temp"
-#define MAX_FILENAME_LEN               200
+#define MAX_FILENAME_LEN               300
 #define MAX_MATCH_GUID_NUM             100
 #define MAX_EFI_IN_FFS_NUM             100
 

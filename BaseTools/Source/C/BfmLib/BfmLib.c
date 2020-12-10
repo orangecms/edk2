@@ -123,7 +123,7 @@ LibInitializeFvStruct (
 
   for (Index = 0; Index < MAX_NUMBER_OF_FILES_IN_FV; Index ++) {
     memset (Fv->FfsAttuibutes[Index].FfsName, '\0', _MAX_PATH);
-    memset (Fv->FfsAttuibutes[Index].UiName, '\0', _MAX_PATH);
+    memset (Fv->FfsAttuibutes[Index].UiName, '\0', sizeof(Fv->FfsAttuibutes[Index].UiName));
     
     Fv->FfsAttuibutes[Index].IsLeaf               = TRUE;
     Fv->FfsAttuibutes[Index].TotalSectionNum      = 0;  
@@ -1633,7 +1633,7 @@ LibParseSection (
         }
       } else if (ExtractionTool != NULL) {
 
-        TempDir = getcwd (NULL, _MAX_PATH);
+        TempDir = getcwd (NULL, 0);
         if (strlen (TempDir) + strlen (OS_SEP_STR) + strlen (TEMP_DIR_NAME) > _MAX_PATH - 1) {
           printf ("The directory is too long \n");
           free (ExtractionTool);
@@ -1991,7 +1991,7 @@ LibGenExtFile(
 
   TempDir = NULL;
 
-  TempDir = getcwd(NULL, _MAX_PATH);
+  TempDir = getcwd (NULL, 0);
 
   if (strlen (TempDir) + strlen (OS_SEP_STR) + strlen (TEMP_DIR_NAME) > _MAX_PATH - 1) {
     printf ("The directory is too long \n");
@@ -2080,7 +2080,7 @@ LibGenFfsFile (
   FfsFile       = NULL;   
   TempDir       = NULL;
   
-  TempDir = getcwd (NULL, _MAX_PATH);
+  TempDir = getcwd (NULL, 0);
 
    if (strlen (TempDir) + strlen (OS_SEP_STR) + strlen (TEMP_DIR_NAME) > _MAX_PATH - 1) {
     printf ("The directory is too long \n");
@@ -2231,7 +2231,7 @@ LibDeleteAndRenameFfs(
   }     
   free(SystemCommand);      
   
-  TemDir = getcwd (NULL, _MAX_PATH);
+  TemDir = getcwd (NULL, 0);
   if (strlen (TemDir) + strlen (OS_SEP_STR) + strlen (TEMP_DIR_NAME) + strlen (OS_SEP_STR) > _MAX_PATH - 1) {
     printf ("The directory is too long \n");
     return EFI_ABORTED;
@@ -2400,139 +2400,139 @@ LibFvHeaderAttributeToStr (
     return EFI_INVALID_PARAMETER;
   }
   
-  strncat (LocalStr, "[attributes] \n", sizeof("[attributes] \n"));
+  strcat (LocalStr, "[attributes] \n");
   
   if (Attr & EFI_FVB2_READ_DISABLED_CAP) {
-    strncat (LocalStr, "EFI_READ_DISABLED_CAP = TRUE \n", sizeof ("EFI_READ_DISABLED_CAP = TRUE \n"));
+    strcat (LocalStr, "EFI_READ_DISABLED_CAP = TRUE \n");
   } 
   
   if (Attr & EFI_FVB2_READ_ENABLED_CAP) {
-    strncat (LocalStr, "EFI_READ_ENABLED_CAP = TRUE \n", sizeof ("EFI_READ_ENABLED_CAP = TRUE \n"));
+    strcat (LocalStr, "EFI_READ_ENABLED_CAP = TRUE \n");
   }
 
   if (Attr & EFI_FVB2_READ_STATUS) {
-    strncat (LocalStr, "EFI_READ_STATUS = TRUE \n", sizeof ("EFI_READ_STATUS = TRUE \n"));
+    strcat (LocalStr, "EFI_READ_STATUS = TRUE \n");
   }
   
   if (Attr & EFI_FVB2_WRITE_DISABLED_CAP) {
-    strncat (LocalStr, "EFI_WRITE_DISABLED_CAP = TRUE \n", sizeof ("EFI_WRITE_DISABLED_CAP = TRUE \n"));
+    strcat (LocalStr, "EFI_WRITE_DISABLED_CAP = TRUE \n");
   } 
   
   if (Attr & EFI_FVB2_WRITE_ENABLED_CAP) {
-    strncat (LocalStr, "EFI_WRITE_ENABLED_CAP = TRUE \n", sizeof ("EFI_WRITE_ENABLED_CAP = TRUE \n"));
+    strcat (LocalStr, "EFI_WRITE_ENABLED_CAP = TRUE \n");
   }
 
   if (Attr & EFI_FVB2_WRITE_STATUS) {
-    strncat (LocalStr, "EFI_WRITE_STATUS = TRUE \n", sizeof ("EFI_WRITE_STATUS = TRUE \n"));
+    strcat (LocalStr, "EFI_WRITE_STATUS = TRUE \n");
   }
    
   if (Attr & EFI_FVB2_LOCK_CAP) {
-    strncat (LocalStr, "EFI_LOCK_CAP = TRUE \n", sizeof ("EFI_LOCK_CAP = TRUE \n"));
+    strcat (LocalStr, "EFI_LOCK_CAP = TRUE \n");
   }
   
   if (Attr & EFI_FVB2_LOCK_STATUS) {
-    strncat (LocalStr, "EFI_LOCK_STATUS = TRUE \n", sizeof ("EFI_LOCK_STATUS = TRUE \n"));
+    strcat (LocalStr, "EFI_LOCK_STATUS = TRUE \n");
   }
 
   if (Attr & EFI_FVB2_STICKY_WRITE) {
-    strncat (LocalStr, "EFI_STICKY_WRITE = TRUE \n", sizeof ("EFI_STICKY_WRITE = TRUE \n"));
+    strcat (LocalStr, "EFI_STICKY_WRITE = TRUE \n");
   }  
 
   if (Attr & EFI_FVB2_MEMORY_MAPPED) {
-    strncat (LocalStr, "EFI_MEMORY_MAPPED = TRUE \n", sizeof ("EFI_MEMORY_MAPPED = TRUE \n"));
+    strcat (LocalStr, "EFI_MEMORY_MAPPED = TRUE \n");
   }
     
   if (Attr & EFI_FVB2_ERASE_POLARITY) {
-    strncat (LocalStr, "EFI_ERASE_POLARITY = 1 \n", sizeof ("EFI_ERASE_POLARITY = 1 \n"));
+    strcat (LocalStr, "EFI_ERASE_POLARITY = 1 \n");
   }
   
   if (Attr & EFI_FVB2_READ_LOCK_CAP) {
-    strncat (LocalStr, "EFI_READ_LOCK_CAP = TRUE \n", sizeof ("EFI_READ_LOCK_CAP = TRUE \n"));
+    strcat (LocalStr, "EFI_READ_LOCK_CAP = TRUE \n");
   }
     
   if (Attr & EFI_FVB2_READ_LOCK_STATUS) {
-    strncat (LocalStr, "EFI_READ_LOCK_STATUS = TRUE \n", sizeof ("EFI_READ_LOCK_STATUS = TRUE \n"));
+    strcat (LocalStr, "EFI_READ_LOCK_STATUS = TRUE \n");
   }
  
   if (Attr & EFI_FVB2_WRITE_LOCK_CAP) {
-    strncat (LocalStr, "EFI_WRITE_LOCK_CAP = TRUE \n", sizeof ("EFI_WRITE_LOCK_CAP = TRUE \n"));
+    strcat (LocalStr, "EFI_WRITE_LOCK_CAP = TRUE \n");
   } 
 
   if (Attr & EFI_FVB2_WRITE_LOCK_STATUS) {
-    strncat (LocalStr, "EFI_WRITE_LOCK_STATUS = TRUE \n", sizeof ("EFI_WRITE_LOCK_STATUS = TRUE \n"));
+    strcat (LocalStr, "EFI_WRITE_LOCK_STATUS = TRUE \n");
   }  
   
   if (Attr & EFI_FVB2_LOCK_STATUS) {
-    strncat (LocalStr, "EFI_READ_LOCK_STATUS = TRUE \n", sizeof ("EFI_READ_LOCK_STATUS = TRUE \n"));
+    strcat (LocalStr, "EFI_READ_LOCK_STATUS = TRUE \n");
   } 
  
   //
   // Alignment
   //
   if (Attr & EFI_FVB2_ALIGNMENT_1) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_1 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_1 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_1 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_2) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_2 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_2 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_2 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_4) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_4 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_4 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_4 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_8) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_8 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_8 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_8 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_16) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_16 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_16 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_16 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_32) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_32 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_32 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_32 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_64) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_64 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_64 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_64 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_128) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_128 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_128 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_128 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_256) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_256 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_256 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_256 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_512) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_512 = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_512 = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_512 = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_1K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_1K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_1K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_1K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_2K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_2K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_2K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_2K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_4K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_4K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_4K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_4K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_8K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_8K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_8K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_8K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_16K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_16K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_16K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_16K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_32K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_32K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_32K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_32K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_64K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_64K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_64K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_64K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_128K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_128K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_128K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_128K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_256K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_256K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_256K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_256K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_512K) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_512K = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_512K = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_512K = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_1M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_1M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_1M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_1M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_2M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_2M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_2M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_2M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_4M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_4M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_4M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_4M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_8M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_8M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_8M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_8M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_16M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_16M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_16M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_16M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_32M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_32M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_32M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_32M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_64M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_64M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_64M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_64M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_128M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_128M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_128M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_128M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_256M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_256M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_256M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_256M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_512M) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_512M = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_512M = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_512M = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_1G) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_1G = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_1G = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_1G = TRUE \n");
   } else if (Attr & EFI_FVB2_ALIGNMENT_2G) {
-    strncat (LocalStr, "EFI_FVB2_ALIGNMENT_2G = TRUE \n", sizeof ("EFI_FVB2_ALIGNMENT_2G = TRUE \n"));
+    strcat (LocalStr, "EFI_FVB2_ALIGNMENT_2G = TRUE \n");
   }                               
    
   if (fwrite (LocalStr, 1, (size_t) strlen (LocalStr), InfFile) != (size_t) strlen (LocalStr)) {
@@ -2605,11 +2605,11 @@ LibFvHeaderOptionToStr (
   strncat (LocalStr, "[options] \n", sizeof("[Options] \n"));  
   
   sprintf (BlockSize, "EFI_BLOCK_SIZE  = 0x%x \n", BlockMap->Length); 
-  strncat (LocalStr, BlockSize, strlen(BlockSize));
+  strcat (LocalStr, BlockSize);
   
   if (IsRootFv) {
   sprintf (NumOfBlocks, "EFI_NUM_BLOCKS  = 0x%x \n", BlockMap->NumBlocks);
-  strncat (LocalStr, NumOfBlocks, strlen(NumOfBlocks));
+  strcat (LocalStr, NumOfBlocks);
   }
 
   if (fwrite (LocalStr, 1, (size_t) strlen (LocalStr), InfFile) != (size_t) strlen (LocalStr)) {
@@ -3528,7 +3528,7 @@ LibGenCompressedSection (
       return EFI_ABORTED;
     }
   
-    TemDir = getcwd (NULL, _MAX_PATH);
+    TemDir = getcwd (NULL, 0);
     if (strlen (TemDir) + strlen (OS_SEP_STR) + strlen (TEMP_DIR_NAME) > _MAX_PATH - 1) {
       printf ("The directory is too long \n");
       fclose (UnCompressFile);
